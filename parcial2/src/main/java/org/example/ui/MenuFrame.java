@@ -9,7 +9,7 @@ import org.example.DAO.interfaces.EmpleadoDAO;
 import org.example.DAO.interfaces.MascotaDAO;
 import org.example.DAO.interfaces.AdoptanteDAO;
 import org.example.modelo.*;
-
+import org.example.sesion.SesionIniciada;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -22,12 +22,12 @@ public class MenuFrame extends JFrame {
 
     public MenuFrame() {
         setTitle("Menu");
-        setSize(500, 700);
+        setSize(400, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panelR = new JPanel();
-        panelR.setLayout(new GridLayout(10, 6));
+        panelR.setLayout(new GridLayout(8, 5));
 
         JButton tablaM = new JButton("Ver lista de mascotas");
         tablaM.addActionListener(new ActionListener() {
@@ -185,7 +185,16 @@ public class MenuFrame extends JFrame {
         cerrarSesion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cerrar sesion");
+
+                SesionIniciada.cerrarSesion();
+                JOptionPane.showMessageDialog(null, "Sesión cerrada correctamente.");
+
+dispose();
+                LoginFrame login = new LoginFrame();
+                login.setVisible(true);
+
+
+
             }
         });
 
@@ -203,7 +212,7 @@ public class MenuFrame extends JFrame {
         panelR.add(tablaR);
        // panelR.add(tablaB);
        // panelR.add(rAdoptante);
-        panelR.add(rMascota);
+      //  panelR.add(rMascota);
         panelR.add(rAdopcion);
         panelR.add(cerrarSesion);
         add(panelR);

@@ -19,7 +19,7 @@ import java.util.List;
 
         public LoginFrame() {
 
-            setTitle("Veterinaria Don Horacio");
+            setTitle("Login");
             setSize(300, 200);
             setLocationRelativeTo(null);
             setDefaultCloseOperation(EXIT_ON_CLOSE);
