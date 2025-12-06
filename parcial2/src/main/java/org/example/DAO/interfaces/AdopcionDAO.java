@@ -9,4 +9,5 @@ public interface AdopcionDAO {
     public Adopcion registrar(Adopcion adopcion);
     public List<Adopcion> listarAdopciones();
     public Adopcion buscarRegistro(int id);
+    public Adopcion eliminarAdopcion(int id);
 }

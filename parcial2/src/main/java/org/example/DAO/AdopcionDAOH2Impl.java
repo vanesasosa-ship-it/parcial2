@@ -2,6 +2,7 @@ package org.example.DAO;
 
 import org.example.DAO.interfaces.AdopcionDAO;
 import org.example.modelo.Adopcion;
+import org.example.modelo.Adoptante;
 import org.example.modelo.Empleado;
 import org.example.modelo.Mascota;
 
@@ -89,5 +90,49 @@ public AdopcionDAOH2Impl() {
 
 
      }
+
+    @Override
+    public Adopcion eliminarAdopcion(int id) {
+
+        String selectSql = "SELECT * FROM ADOPCION WHERE id = ?";
+        String deleteSql = "DELETE FROM ADOPCION WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+
+
+            try (PreparedStatement psSelect = conn.prepareStatement(selectSql)) {
+                psSelect.setInt(1, id);
+
+                ResultSet rs = psSelect.executeQuery();
+
+                if (!rs.next()) {
+                    return null;
+                }
+
+
+                Adopcion adopcion = new Adopcion(
+                        rs.getInt("idAdoptante"),
+                        rs.getInt("idMascota"),
+                        rs.getString("fecha"),
+                        rs.getInt("id")
+                );
+                adopcion.setId(rs.getInt("id"));
+
+
+                try (PreparedStatement psDelete = conn.prepareStatement(deleteSql)) {
+                    psDelete.setInt(1, id);
+                    psDelete.executeUpdate();
+                }
+
+                return adopcion;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 }

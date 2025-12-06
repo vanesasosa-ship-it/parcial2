@@ -50,7 +50,7 @@ public class MenuFrame extends JFrame {
                                 mascota.getEspecie(),
                                 mascota.getFechaNacimiento() != null ? mascota.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
                                 mascota.getPeso()
-                        }
+                        }, id -> mascotaDAO.eliminarMascota(id)
                 );
             }
         });
@@ -73,7 +73,8 @@ public class MenuFrame extends JFrame {
                                 empleado.getId(),
                                 empleado.getNombre(),
                                 empleado.getCargo()
-                        }
+                        },
+                        id -> empleadoDAO.eliminarEmpleado(id)
                 );
 
 
@@ -101,7 +102,7 @@ public class MenuFrame extends JFrame {
                                 adoptante.getEdad(),
                                 adoptante.getDireccion(),
 
-                        }
+                        }, id -> adoptanteDAO.eliminarAdoptante(id)
                 );
             }
         });
@@ -128,7 +129,7 @@ public class MenuFrame extends JFrame {
                                 adopcion.getIdMascota(),
                                 adopcion.getFecha()
 
-                        }
+                        }, id -> adopcionDAO.eliminarAdopcion(id)
                 );
             }
         });
@@ -212,7 +213,7 @@ dispose();
         panelR.add(tablaR);
        // panelR.add(tablaB);
        // panelR.add(rAdoptante);
-      //  panelR.add(rMascota);
+        panelR.add(rMascota);
         panelR.add(rAdopcion);
         panelR.add(cerrarSesion);
         add(panelR);

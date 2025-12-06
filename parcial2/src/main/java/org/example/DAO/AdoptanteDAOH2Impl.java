@@ -2,6 +2,7 @@ package org.example.DAO;
 
 import org.example.DAO.interfaces.AdoptanteDAO;
 import org.example.modelo.Adoptante;
+import org.example.modelo.Empleado;
 
 import javax.swing.*;
 import java.sql.*;
@@ -123,5 +124,49 @@ public class AdoptanteDAOH2Impl implements AdoptanteDAO {
 
 
     }
+
+    @Override
+    public Adoptante eliminarAdoptante(int id) {
+
+        String selectSql = "SELECT * FROM ADOPTANTE WHERE id = ?";
+        String deleteSql = "DELETE FROM ADOPTANTE WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+
+
+            try (PreparedStatement psSelect = conn.prepareStatement(selectSql)) {
+                psSelect.setInt(1, id);
+
+                ResultSet rs = psSelect.executeQuery();
+
+                if (!rs.next()) {
+                    return null;
+                }
+
+
+                Adoptante adoptante = new Adoptante(
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getInt("edad"),
+                        rs.getInt("id")
+                );
+                adoptante.setId(rs.getInt("id"));
+
+
+                try (PreparedStatement psDelete = conn.prepareStatement(deleteSql)) {
+                    psDelete.setInt(1, id);
+                    psDelete.executeUpdate();
+                }
+
+                return adoptante;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 }

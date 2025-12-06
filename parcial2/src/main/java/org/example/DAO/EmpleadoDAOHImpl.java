@@ -115,6 +115,45 @@ public class EmpleadoDAOHImpl  implements EmpleadoDAO {
         return null;
     }
 
+    @Override
+    public Empleado eliminarEmpleado(int id) {
 
+        String selectSql = "SELECT * FROM EMPLEADO WHERE id = ?";
+        String deleteSql = "DELETE FROM EMPLEADO WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+
+
+            try (PreparedStatement psSelect = conn.prepareStatement(selectSql)) {
+                psSelect.setInt(1, id);
+
+                ResultSet rs = psSelect.executeQuery();
+
+                if (!rs.next()) {
+                    return null;
+                }
+
+
+                Empleado empleado = new Empleado(
+                        rs.getString("nombre"),
+                        rs.getString("cargo")
+                );
+                empleado.setId(rs.getInt("id"));
+
+
+                try (PreparedStatement psDelete = conn.prepareStatement(deleteSql)) {
+                    psDelete.setInt(1, id);
+                    psDelete.executeUpdate();
+                }
+
+                return empleado;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 }

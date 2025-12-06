@@ -13,7 +13,7 @@ public interface EmpleadoDAO {
 
     public List<Empleado> listarEmpleados();
     public Empleado registrarEmpleado(Empleado empleado, boolean iniciaP);
-
+public Empleado eliminarEmpleado(int id);
     public Empleado login(String nombre, String password);
 
 }

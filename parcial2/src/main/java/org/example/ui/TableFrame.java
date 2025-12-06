@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 
@@ -11,7 +12,8 @@ public class TableFrame<T> extends JFrame {
 
     public TableFrame(String titulo, String[] columnas,
             List<T> data,
-            Function<T, Object[]> rowMapper
+            Function<T, Object[]> rowMapper,
+                      Consumer<Integer> deleteCallback
     ) {
 
         setTitle(titulo);
@@ -35,6 +37,37 @@ public class TableFrame<T> extends JFrame {
             JScrollPane scrollPane = new JScrollPane(table);
 
             panel.add(scrollPane, BorderLayout.CENTER);
+            JButton eliminar = new JButton("Eliminar seleccionado");
+
+            eliminar.addActionListener(e -> {
+                int fila = table.getSelectedRow();
+
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(null, "Seleccione un registro");
+                    return;
+                }
+
+                Object idObj = tableModel.getValueAt(fila, 0);
+
+                if (idObj instanceof Integer) {
+                    int id = (int) idObj;
+
+
+                    if (deleteCallback != null) {
+                        deleteCallback.accept(id);
+                    }
+                }
+
+
+                tableModel.removeRow(fila);
+
+                JOptionPane.showMessageDialog(null, "Registro eliminado");
+            });
+
+            JPanel southPanel = new JPanel();
+            southPanel.add(eliminar);
+
+            panel.add(southPanel, BorderLayout.SOUTH);
             setContentPane(panel);
 
             setLocationRelativeTo(null);

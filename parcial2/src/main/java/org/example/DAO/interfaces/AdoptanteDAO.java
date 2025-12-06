@@ -9,5 +9,6 @@ public interface AdoptanteDAO {
     public List<Adoptante> listarAdoptantes();
     public Adoptante registrar(Adoptante adoptante, boolean iniciaP);
     public Adoptante buscarRegistro(int id);
+    public Adoptante eliminarAdoptante(int id);
 }
 

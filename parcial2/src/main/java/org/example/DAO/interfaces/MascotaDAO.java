@@ -12,6 +12,6 @@ public interface MascotaDAO {
      public Mascota guardarMascota(Mascota mascota, boolean iniciaP);
 
     public Mascota buscarRegistro(int id);
-
+    public Mascota eliminarMascota(int id);
 
 }

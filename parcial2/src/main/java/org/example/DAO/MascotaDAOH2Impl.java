@@ -1,10 +1,7 @@
 package org.example.DAO;
 
 import org.example.DAO.interfaces.MascotaDAO;
-import org.example.modelo.Adopcion;
-import org.example.modelo.AdopcionIniciada;
-import org.example.modelo.Adoptante;
-import org.example.modelo.Mascota;
+import org.example.modelo.*;
 import org.example.ui.RegistrarAdopcionFrame;
 
 import javax.swing.*;
@@ -123,5 +120,49 @@ public class MascotaDAOH2Impl implements MascotaDAO {
 
 
     }
+
+    @Override
+    public Mascota eliminarMascota(int id) {
+
+        String selectSql = "SELECT * FROM MASCOTA WHERE id = ?";
+        String deleteSql = "DELETE FROM MASCOTA WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+
+
+            try (PreparedStatement psSelect = conn.prepareStatement(selectSql)) {
+                psSelect.setInt(1, id);
+
+                ResultSet rs = psSelect.executeQuery();
+
+                if (!rs.next()) {
+                    return null;
+                }
+
+
+                Mascota mascota = new Mascota(
+                        rs.getString("nomMascota"),
+                        rs.getString("especie"),
+                        rs.getDate("fechaNacimiento").toLocalDate(),
+                        rs.getInt("peso")
+                );
+                mascota.setId(rs.getInt("id"));
+
+
+                try (PreparedStatement psDelete = conn.prepareStatement(deleteSql)) {
+                    psDelete.setInt(1, id);
+                    psDelete.executeUpdate();
+                }
+
+                return mascota;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 }
