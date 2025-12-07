@@ -1,8 +1,9 @@
 package org.example.modelo;
 
 import java.time.LocalDate;
+import java.util.List;
 
-public class Mascota {
+public class Mascota extends Especie {
 
     private String nomMascota;
     private String especie;
@@ -10,8 +11,8 @@ public class Mascota {
     private int peso;
     private int id;
 
-
-    public Mascota(String nomMascota, String especie, LocalDate fechaNacimiento, int peso, int id) {
+    public Mascota(String nomMascota, String especie, LocalDate fechaNacimiento, int peso, int id, List<String> cuidados) {
+        super(cuidados);
         this.nomMascota = nomMascota;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
@@ -19,8 +20,8 @@ public class Mascota {
         this.id = id;
     }
 
-
-    public Mascota(String nomMascota, String especie, LocalDate fechaNacimiento, int peso) {
+    public Mascota(String nomMascota, String especie, LocalDate fechaNacimiento, int peso, List<String> cuidados) {
+        super(cuidados);
         this.nomMascota = nomMascota;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
@@ -66,5 +67,6 @@ public class Mascota {
     public void setId(int id) {
         this.id = id;
     }
-}
 
+
+}

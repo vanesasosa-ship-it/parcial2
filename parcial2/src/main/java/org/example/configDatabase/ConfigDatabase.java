@@ -35,7 +35,9 @@ public class ConfigDatabase {
                         "nomMascota VARCHAR(255), " +
                         "especie VARCHAR(255), " +
                         "fechaNacimiento VARCHAR(255), " +
-                        "peso VARCHAR(255))",
+                        "peso VARCHAR(255), " +
+                        "cuidados VARCHAR(500)" +
+                        ")",
                 URL, USER, PASSWORD
         );
 

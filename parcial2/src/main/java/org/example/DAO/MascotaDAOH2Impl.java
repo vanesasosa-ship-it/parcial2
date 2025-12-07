@@ -7,6 +7,7 @@ import org.example.ui.RegistrarAdopcionFrame;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MascotaDAOH2Impl implements MascotaDAO {
@@ -42,12 +43,13 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                     }
                 }
             }else{
-                String insertQuery = "INSERT INTO " + TABLE_NAME + " (nomMascota, especie, fechaNacimiento, peso) VALUES (?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO " + TABLE_NAME + " (nomMascota, especie, fechaNacimiento, peso, cuidados) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
                     ps.setString(1, mascota.getNomMascota());
                     ps.setString(2, mascota.getEspecie());
                     ps.setDate(3, java.sql.Date.valueOf(mascota.getFechaNacimiento()));
                     ps.setInt(4, mascota.getPeso());
+                    ps.setString(5, String.join(",", mascota.getCuidadosEspecificos()));
 
                     ps.executeUpdate();
                     try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -86,7 +88,8 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                                 rs.getString("especie"),
                                 rs.getDate("fechaNacimiento").toLocalDate(),
                                 rs.getInt("peso"),
-                                rs.getInt("id")
+                                rs.getInt("id"),
+                                Arrays.asList(rs.getString("cuidados").split(","))
                         );
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -110,7 +113,8 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                                 rs.getString("especie"),
                                 rs.getDate("fechaNacimiento").toLocalDate(),
                                 rs.getInt("peso"),
-                                rs.getInt("id")
+                                rs.getInt("id"),
+                                new ArrayList<>()
                         );
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -144,7 +148,8 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                         rs.getString("nomMascota"),
                         rs.getString("especie"),
                         rs.getDate("fechaNacimiento").toLocalDate(),
-                        rs.getInt("peso")
+                        rs.getInt("peso"),
+                        new ArrayList<>()
                 );
                 mascota.setId(rs.getInt("id"));
 

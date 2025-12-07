@@ -62,6 +62,7 @@ public class TableFrame<T> extends JFrame {
                 tableModel.removeRow(fila);
 
                 JOptionPane.showMessageDialog(null, "Registro eliminado");
+                dispose();
             });
 
             JPanel southPanel = new JPanel();

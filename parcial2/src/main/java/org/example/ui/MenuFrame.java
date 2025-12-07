@@ -12,7 +12,6 @@ import org.example.modelo.*;
 import org.example.sesion.SesionIniciada;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,7 +37,7 @@ public class MenuFrame extends JFrame {
 
                 List<Mascota> mascotas = mascotaDAO.listarMascotas();
 
-                String[] columnas = {"ID", "Nombre","Especie", "Fecha de nacimiento", "Peso"};
+                String[] columnas = {"ID", "Nombre","Especie", "Fecha de nacimiento", "Peso", "cuidados"};
 
                 TableFrame<Mascota> frame = new TableFrame<>(
                         "Listado de mascotas",
@@ -49,7 +48,8 @@ public class MenuFrame extends JFrame {
                                 mascota.getNomMascota(),
                                 mascota.getEspecie(),
                                 mascota.getFechaNacimiento() != null ? mascota.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
-                                mascota.getPeso()
+                                mascota.getPeso(),
+                                mascota.getCuidadosEspecificos()
                         }, id -> mascotaDAO.eliminarMascota(id)
                 );
             }

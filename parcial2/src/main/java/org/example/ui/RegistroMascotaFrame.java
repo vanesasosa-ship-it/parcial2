@@ -3,6 +3,7 @@ package org.example.ui;
 import org.example.DAO.MascotaDAOH2Impl;
 import org.example.DAO.interfaces.MascotaDAO;
 import org.example.modelo.AdopcionIniciada;
+import org.example.modelo.SeleccionEspecie;
 import org.example.modelo.Mascota;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class RegistroMascotaFrame extends JFrame {
 
     private JTextField nombreField;
     private JTextField especieField;
+    private JTextField especieSeleccionada;
     private JTextField fechaNacimientoField;
     private JTextField pesoField;
 
@@ -27,14 +29,25 @@ public class RegistroMascotaFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        String[] opciones = {"Perro", "Gato", "Conejo", "Otra"};
+
+        int eleccion = JOptionPane.showOptionDialog(
+                null,
+                "Por favor, Seleccione la especie a la que pertenece la mascota",
+                "Especie",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+        );
+
+
         JPanel panelR = new JPanel();
         panelR.setLayout(new GridLayout(6, 2));
 
         JLabel nombreLabel = new JLabel("Nombre:");
         nombreField = new JTextField();
-
-        JLabel especieLabel = new JLabel("Especie:");
-        especieField = new JTextField();
 
         JLabel fechaNacimientoLabel = new JLabel("Fecha de nacimiento:");
         fechaNacimientoField = new JTextField();
@@ -45,8 +58,6 @@ public class RegistroMascotaFrame extends JFrame {
         panelR.add(nombreLabel);
         panelR.add(nombreField);
 
-        panelR.add(especieLabel);
-        panelR.add(especieField);
 
         panelR.add(fechaNacimientoLabel);
         panelR.add(fechaNacimientoField);
@@ -62,10 +73,9 @@ public class RegistroMascotaFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 String nombre = nombreField.getText();
-                String especie = especieField.getText();
-               // String fechaNacimiento = fechaNacimientoField.getText();
                 String fechaText = fechaNacimientoField.getText().trim();
                 String pesoText = pesoField.getText();
+
 
                 int peso;
 
@@ -87,7 +97,7 @@ public class RegistroMascotaFrame extends JFrame {
 
                 MascotaDAO mascotaDAO = new MascotaDAOH2Impl();
 
-                Mascota mascota = new Mascota(nombre, especie,fechaNacimiento, peso);
+                Mascota mascota = SeleccionEspecie.seleccionEspecie(nombre, eleccion, fechaNacimiento, peso);
                 mascotaDAO.guardarMascota(mascota, false);
 
                 if(adopcion){
@@ -95,7 +105,6 @@ public class RegistroMascotaFrame extends JFrame {
                     int idMacotaCargada = mascota.getId();
                     AdopcionIniciada sesionAdopcion = AdopcionIniciada.getInstancia();
                     sesionAdopcion.setIdMascota(idMacotaCargada);
-
                     dispose();
                     RegistrarAdopcionFrame registrarAdopcion = new RegistrarAdopcionFrame();
                     registrarAdopcion.setVisible(true);
