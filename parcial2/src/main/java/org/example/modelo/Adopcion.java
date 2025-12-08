@@ -57,7 +57,7 @@ public class Adopcion {
 
 
 
-                "Empleado encargado:<br> " +
+                "Empleado encargado: " +"\n" +
                 "Nombre: " + empleado.getNombre() +"\n" +
                 "Cargo: "+ empleado.getCargo()  + "\n\n" +
 

@@ -193,4 +193,28 @@ public class MascotaDAOH2Impl implements MascotaDAO {
              }
      );
  }
+
+ @Override
+    public Mascota actualizarMascota(Mascota mascota) {
+        String sql = "UPDATE MASCOTA SET nombre=?, especie=?, fechaNacimiento=?, peso=?, cuidados=? WHERE id=?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, mascota.getNombre());
+            ps.setString(2, mascota.getEspecie());
+            ps.setDate(3, java.sql.Date.valueOf(mascota.getFechaNacimiento()));
+            ps.setInt(4, mascota.getPeso());
+            ps.setString(5, String.join(",", mascota.getCuidadosEspecificos()));
+            ps.setInt(6, mascota.getId());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al actualizar mascota: " + e.getMessage());
+        }
+     return mascota;
+ }
+
 }

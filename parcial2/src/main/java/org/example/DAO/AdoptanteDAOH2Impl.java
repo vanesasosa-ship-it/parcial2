@@ -168,5 +168,24 @@ public class AdoptanteDAOH2Impl implements AdoptanteDAO {
         return null;
     }
 
+@Override
+    public Adoptante actualizarAdoptante(Adoptante adoptante) {
+    String sql = "UPDATE ADOPTANTE SET nombre=?, direccion=?, edad=? WHERE id=?";
 
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, adoptante.getNombre());
+        ps.setString(2, adoptante.getDireccion());
+        ps.setInt(3, adoptante.getEdad());
+        ps.setInt(4, adoptante.getId());
+
+        ps.executeUpdate();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al actualizar adoptante: " + e.getMessage());
+    }
+    return adoptante;
+}
 }

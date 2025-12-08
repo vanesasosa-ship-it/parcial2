@@ -13,7 +13,8 @@ public class TableFrame<T> extends JFrame {
     public TableFrame(String titulo, String[] columnas,
             List<T> data,
             Function<T, Object[]> rowMapper,
-                      Consumer<Integer> deleteCallback
+                      Consumer<Integer> deleteCallback,
+                      Consumer<Integer> editCallback
     ) {
 
         setTitle(titulo);
@@ -37,6 +38,27 @@ public class TableFrame<T> extends JFrame {
             JScrollPane scrollPane = new JScrollPane(table);
 
             panel.add(scrollPane, BorderLayout.CENTER);
+
+            JButton editar = new JButton("Editar seleccionado");
+            editar.addActionListener(e -> {
+                int fila = table.getSelectedRow();
+
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(null, "Seleccione un registro");
+                    return;
+                }
+
+                Object idObj = tableModel.getValueAt(fila, 0);
+
+                if (idObj instanceof Integer id) {
+                    if (editCallback != null) {
+                        editCallback.accept(id);
+                        dispose();
+                    }
+                }
+            });
+
+
             JButton eliminar = new JButton("Eliminar seleccionado");
 
             eliminar.addActionListener(e -> {
@@ -66,11 +88,12 @@ public class TableFrame<T> extends JFrame {
             });
 
             JPanel southPanel = new JPanel();
+            southPanel.add(editar);
             southPanel.add(eliminar);
 
             panel.add(southPanel, BorderLayout.SOUTH);
-            setContentPane(panel);
 
+            setContentPane(panel);
             setLocationRelativeTo(null);
             setVisible(true);
 

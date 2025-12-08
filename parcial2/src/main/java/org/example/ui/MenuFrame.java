@@ -10,7 +10,10 @@ import org.example.DAO.interfaces.MascotaDAO;
 import org.example.DAO.interfaces.AdoptanteDAO;
 import org.example.modelo.*;
 import org.example.sesion.SesionIniciada;
+
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +29,7 @@ public class MenuFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panelR = new JPanel();
-        panelR.setLayout(new GridLayout(8, 5));
+        panelR.setLayout(new GridLayout(9, 5));
 
         JButton tablaM = new JButton("Ver lista de mascotas");
         tablaM.addActionListener(new ActionListener() {
@@ -50,7 +53,36 @@ public class MenuFrame extends JFrame {
                                 mascota.getFechaNacimiento() != null ? mascota.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
                                 mascota.getPeso(),
                                 mascota.getCuidadosEspecificos()
-                        }, id -> mascotaDAO.eliminarMascota(id)
+                        }, id -> mascotaDAO.eliminarMascota(id),
+                        id -> {
+                            Mascota m = mascotaDAO.buscarRegistro(id);
+                            if (m == null) {
+                                JOptionPane.showMessageDialog(null, "No se encontró la mascota.");
+                                return;
+                            }
+
+                            new EditorFrame<>(
+                                    "Editar Mascota",
+                                    m,
+                                    new String[]{"Nombre", "Fecha Nacimiento", "Peso"},
+                                    mas -> new Object[]{
+                                            mas.getNombre(),
+                                            mas.getFechaNacimiento() != null ? mas.getFechaNacimiento().toString() : "",
+                                            mas.getPeso()
+                                    },
+                                    (mas, vals) -> {
+                                        mas.setNombre((String) vals[0]);
+                                        mas.setFechaNacimiento(vals[1].toString().isEmpty()
+                                                ? null
+                                                : LocalDate.parse(vals[1].toString()));
+                                        mas.setPeso(Integer.parseInt((String) vals[2]));
+                                    },
+                                    mascotaEditada -> {
+                                        mascotaDAO.actualizarMascota(mascotaEditada);
+
+                                    }
+                            );
+                        }
                 );
             }
         });
@@ -74,7 +106,32 @@ public class MenuFrame extends JFrame {
                                 empleado.getNombre(),
                                 empleado.getCargo()
                         },
-                        id -> empleadoDAO.eliminarEmpleado(id)
+                        id -> empleadoDAO.eliminarEmpleado(id),
+                        id -> {
+                            Empleado m = empleadoDAO.buscarEmpleado(id);
+                            if (m == null) {
+                                JOptionPane.showMessageDialog(null, "No se encontró el empleado.");
+                                return;
+                            }
+
+                            new EditorFrame<>(
+                                    "Editar Empleado",
+                                    m,
+                                    new String[]{"Nombre", "Cargo"},
+                                    emp -> new Object[]{
+                                            emp.getNombre(),
+                                            emp.getCargo()
+                                    },
+                                    (emp, vals) -> {
+                                        emp.setNombre((String) vals[0]);
+                                        emp.setCargo((String) vals[1]);
+                                    },
+                                    empleadoEditado -> {
+                                        empleadoDAO.actualizarEmpleado(empleadoEditado);
+
+                                    }
+                            );
+                        }
                 );
 
 
@@ -102,7 +159,34 @@ public class MenuFrame extends JFrame {
                                 adoptante.getEdad(),
                                 adoptante.getDireccion(),
 
-                        }, id -> adoptanteDAO.eliminarAdoptante(id)
+                        }, id -> adoptanteDAO.eliminarAdoptante(id),
+                        id->{
+                            Adoptante m = adoptanteDAO.buscarRegistro(id);
+                            if (m == null) {
+                                JOptionPane.showMessageDialog(null, "No se encontró al adoptante.");
+                                return;
+                            }
+
+                            new EditorFrame<>(
+                                    "Editar Adoptante",
+                                    m,
+                                    new String[]{"Nombre", "Edad", "Direccion"},
+                                    adop -> new Object[]{
+                                            adop.getNombre(),
+                                            adop.getEdad(),
+                                            adop.getDireccion()
+                                    },
+                                    (adop, vals) -> {
+                                        adop.setNombre((String) vals[0]);
+                                        adop.setEdad(Integer.parseInt((String) vals[1]));
+                                        adop.setDireccion((String) vals[2]);
+                                    },
+                                    adoptanteEditado -> {
+                                        adoptanteDAO.actualizarAdoptante(adoptanteEditado);
+
+                                    }
+                            );
+                        }
                 );
             }
         });
@@ -129,7 +213,8 @@ public class MenuFrame extends JFrame {
                                 adopcion.getIdMascota(),
                                 adopcion.getFecha()
 
-                        }, id -> adopcionDAO.eliminarAdopcion(id)
+                        }, id -> adopcionDAO.eliminarAdopcion(id),
+                        null
                 );
             }
         });
@@ -181,6 +266,14 @@ public class MenuFrame extends JFrame {
             }
         });
 
+        JButton reportesB = new JButton("Reportes");
+        reportesB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuReportesFrame().setVisible(true);
+            }
+        });
+
 
 
         JButton cerrarSesion = new JButton("Cerrar sesion");
@@ -191,7 +284,7 @@ public class MenuFrame extends JFrame {
                 SesionIniciada.cerrarSesion();
                 JOptionPane.showMessageDialog(null, "Sesión cerrada correctamente.");
 
-dispose();
+                dispose();
                 LoginFrame login = new LoginFrame();
                 login.setVisible(true);
 
@@ -214,6 +307,7 @@ dispose();
        // panelR.add(rAdoptante);
         panelR.add(rMascota);
         panelR.add(rAdopcion);
+        panelR.add(reportesB);
         panelR.add(cerrarSesion);
         add(panelR);
 

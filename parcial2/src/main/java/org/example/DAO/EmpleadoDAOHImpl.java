@@ -2,11 +2,13 @@ package org.example.DAO;
 
 import org.example.DAO.interfaces.EmpleadoDAO;
 import org.example.modelo.Empleado;
+import org.example.modelo.Mascota;
 import org.example.ui.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
 
 public class EmpleadoDAOHImpl  implements EmpleadoDAO {
@@ -156,4 +158,49 @@ public class EmpleadoDAOHImpl  implements EmpleadoDAO {
         return null;
     }
 
+    @Override
+    public Empleado actualizarEmpleado(Empleado empleado) {
+        String sql = "UPDATE EMPLEADO SET nombre=?, cargo=?, password=? WHERE id=?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, empleado.getNombre());
+            ps.setString(2, empleado.getCargo());
+            ps.setString(3, empleado.getPassword());
+            ps.setInt(4, empleado.getId());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al actualizar empleado: " + e.getMessage());
+        }
+        return empleado;
+    }
+
+    @Override
+    public Empleado buscarEmpleado(int id){
+        return dao.buscarPorId(
+                TABLE_NAME,
+                id,
+                URL,
+                USER,
+                PASSWORD,
+                rs -> {
+                    try {
+                        return new Empleado(
+
+                                rs.getString("nombre"),
+                                rs.getString("cargo"),
+                                rs.getString("password"),
+                                rs.getInt("id")
+
+                        );
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+    }
 }

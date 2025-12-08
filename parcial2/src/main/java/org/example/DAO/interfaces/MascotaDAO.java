@@ -15,5 +15,6 @@ public interface MascotaDAO {
     public Mascota buscarRegistro(int id);
     public Mascota eliminarMascota(int id);
     public Mascota buscarMascota(String nombre);
+    public Mascota actualizarMascota(Mascota mascota);
 
 }
