@@ -16,8 +16,9 @@ public class Perro extends Mascota {
 
     private static List<String> crearCuidados() {
         List<String> cuidados = new ArrayList<>();
-        cuidados.add("bañar");
-        cuidados.add("alimentar");
+        cuidados.add("Paseos diarios");
+        cuidados.add("vacunas al día");
+        cuidados.add("baño regular y cepillado");
         return cuidados;
     }
 }

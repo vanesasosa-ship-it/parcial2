@@ -98,5 +98,34 @@ public class DAO {
         return null;
     }
 
+    public <T> T buscarPorNombre(
+            String TABLE_NAME,
+            String nombre,
+            String URL,
+            String USER,
+            String PASSWORD,
+            Function<ResultSet, T> mapper
+    ) {
+
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE nombre = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return mapper.apply(rs);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se encontró un registro con ese nombre");
+        }
+
+        return null;
+    }
+
 
 }

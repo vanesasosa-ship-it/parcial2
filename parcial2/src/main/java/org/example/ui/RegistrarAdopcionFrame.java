@@ -29,7 +29,6 @@ public class RegistrarAdopcionFrame  extends JFrame {
 
         JPanel panelR = new JPanel(new BorderLayout());
 
-
         AdopcionIniciada sesionAdopcion = AdopcionIniciada.getInstancia();
 
         AdoptanteDAO adoptanteDAO = new AdoptanteDAOH2Impl();
@@ -50,30 +49,27 @@ public class RegistrarAdopcionFrame  extends JFrame {
                         "<br>Fecha y hora: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "<br><br>" +
 
                         "Datos de la mascota:<br><br>" +
-                        "Nombre de la mascota: " + mascota.getNomMascota() + "<br>" +
+                        "Nombre de la mascota: " + mascota.getNombre() + "<br>" +
                         "Especie: " + mascota.getEspecie() + "<br>" +
                         "Fecha de nacimiento: " + mascota.getFechaNacimiento() + "<br><br>" +
+
 
                         "Datos del adoptante:<br><br>" +
                         "Nombre del adoptante: " + adoptante.getNombre() + "<br>" +
                         "Dirección: " + adoptante.getDireccion() + "<br>" +
                         "Edad: " + adoptante.getEdad() + "<br><br>" +
 
-                        "Empleado encargado: " + empleadoLogueado.getNombre() +
-                        " - " + empleadoLogueado.getCargo() + "<br><br>" +
-                        "-----------------------------------------------" +
-                        "<br>   ¡Gracias por adoptar una mascota!   <br>" +
-                        "-----------------------------------------------" +
-                        "<br> </html>";
+                        "Empleado encargado:<br> " +
+                        "Nombre: "+empleadoLogueado.getNombre()+"<br>" +
+                        "Cargo: "+empleadoLogueado.getCargo()+"<br><br>" +
+
+                        "<br>Si los datos son correctos<br> seleccione Registrar </html>";
 
         JLabel info = new JLabel(infoHtml);
 
-        JLabel info2 = new JLabel("Si los datos están correctos seleccione Registrar");
 
         info.setFont(new Font("Arial", Font.PLAIN, 16));
         info.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        info2.setFont(new Font("Arial", Font.PLAIN, 16));
-        info2.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JButton submitR = new JButton("Registrar");
 
@@ -82,32 +78,29 @@ public class RegistrarAdopcionFrame  extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 Adopcion nuevaAdopcion = new Adopcion(
-                        sesionAdopcion.getIdAdoptante(),
-                        sesionAdopcion.getIdMascota(),
+                        adoptante,
+                        mascota,
+                        empleadoLogueado,
                         LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 );
 
                 AdopcionDAO dao = new AdopcionDAOH2Impl();
                 dao.registrar(nuevaAdopcion);
 
-                String textoParaPDF = infoHtml
-                        .replace("<html>", "")
-                        .replace("</html>", "")
-                        .replace("<br>", "\n")
-                        .replace("<br/>", "\n")
-                        .replace("<br />", "\n");
+
+                String textoParaPDF = nuevaAdopcion.generarTicket();
 
                 dispose();
-                ImprimeTicketFrame imprimeTicket = new ImprimeTicketFrame(RegistrarAdopcionFrame.this , textoParaPDF);
+
+                ImprimeTicketFrame imprimeTicket =
+                        new ImprimeTicketFrame(RegistrarAdopcionFrame.this, textoParaPDF);
+
                 imprimeTicket.setVisible(true);
-
-
             }
         });
 
 
         panelR.add(info, BorderLayout.NORTH);
-        panelR.add(info2, BorderLayout.CENTER);
         panelR.add(submitR, BorderLayout.SOUTH);
         add(panelR);
     }

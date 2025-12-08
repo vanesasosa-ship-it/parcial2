@@ -31,9 +31,9 @@ public class MascotaDAOH2Impl implements MascotaDAO {
 
             if (iniciaP) {
 
-                String checkQuery = "SELECT id FROM " + TABLE_NAME + " WHERE nomMascota = ?";
+                String checkQuery = "SELECT id FROM " + TABLE_NAME + " WHERE nombre = ?";
                 try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
-                    checkStmt.setString(1, mascota.getNomMascota());
+                    checkStmt.setString(1, mascota.getNombre());
                     try (ResultSet rs = checkStmt.executeQuery()) {
                         if (rs.next()) {
 
@@ -43,9 +43,9 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                     }
                 }
             }else{
-                String insertQuery = "INSERT INTO " + TABLE_NAME + " (nomMascota, especie, fechaNacimiento, peso, cuidados) VALUES (?, ?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO " + TABLE_NAME + " (nombre, especie, fechaNacimiento, peso, cuidados) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
-                    ps.setString(1, mascota.getNomMascota());
+                    ps.setString(1, mascota.getNombre());
                     ps.setString(2, mascota.getEspecie());
                     ps.setDate(3, java.sql.Date.valueOf(mascota.getFechaNacimiento()));
                     ps.setInt(4, mascota.getPeso());
@@ -84,7 +84,7 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                 rs -> {
                     try {
                         return new Mascota(
-                                rs.getString("nomMascota"),
+                                rs.getString("nombre"),
                                 rs.getString("especie"),
                                 rs.getDate("fechaNacimiento").toLocalDate(),
                                 rs.getInt("peso"),
@@ -109,12 +109,12 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                 rs -> {
                     try {
                         return new Mascota(
-                                rs.getString("nomMascota"),
+                                rs.getString("nombre"),
                                 rs.getString("especie"),
                                 rs.getDate("fechaNacimiento").toLocalDate(),
                                 rs.getInt("peso"),
                                 rs.getInt("id"),
-                                new ArrayList<>()
+                                Arrays.asList(rs.getString("cuidados").split(","))
                         );
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -145,7 +145,7 @@ public class MascotaDAOH2Impl implements MascotaDAO {
 
 
                 Mascota mascota = new Mascota(
-                        rs.getString("nomMascota"),
+                        rs.getString("nombre"),
                         rs.getString("especie"),
                         rs.getDate("fechaNacimiento").toLocalDate(),
                         rs.getInt("peso"),
@@ -169,5 +169,28 @@ public class MascotaDAOH2Impl implements MascotaDAO {
         return null;
     }
 
-
+ @Override
+    public Mascota buscarMascota(String nombre) {
+     return dao.buscarPorNombre(
+             TABLE_NAME,
+             nombre,
+             URL,
+             USER,
+             PASSWORD,
+             rs -> {
+                 try {
+                     return new Mascota(
+                             rs.getInt("id"),
+                             rs.getString("nombre"),
+                             rs.getString("especie"),
+                             rs.getDate("fechaNacimiento").toLocalDate(),
+                             rs.getInt("peso"),
+                             Arrays.asList(rs.getString("cuidados").split(","))
+                     );
+                 } catch (Exception e) {
+                     throw new RuntimeException(e);
+                 }
+             }
+     );
+ }
 }

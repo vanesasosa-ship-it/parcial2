@@ -45,7 +45,7 @@ public class MenuFrame extends JFrame {
                         mascotas,
                         mascota -> new Object[] {
                                 mascota.getId(),
-                                mascota.getNomMascota(),
+                                mascota.getNombre(),
                                 mascota.getEspecie(),
                                 mascota.getFechaNacimiento() != null ? mascota.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
                                 mascota.getPeso(),
@@ -174,9 +174,10 @@ public class MenuFrame extends JFrame {
         rMascota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                new RegistroMascotaFrame(false, new MascotaDAOH2Impl()).setVisible(true);
 
-                RegistroMascotaFrame registroMascota = new RegistroMascotaFrame(false);
-               registroMascota.setVisible(true);
+              //  RegistroMascotaFrame registroMascota = new RegistroMascotaFrame(false);
+             //  registroMascota.setVisible(true);
             }
         });
 
@@ -198,8 +199,6 @@ dispose();
 
             }
         });
-
-
 
 
         JLabel tituloLabel = new JLabel("<html>Bienvenido/a a la veterinaria Don Horacio<br>por favor elija una opción</html>");

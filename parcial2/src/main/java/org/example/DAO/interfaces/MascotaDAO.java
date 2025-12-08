@@ -2,6 +2,7 @@ package org.example.DAO.interfaces;
 
 import org.example.modelo.Mascota;
 
+import java.awt.*;
 import java.util.List;
 
 public interface MascotaDAO {
@@ -13,5 +14,6 @@ public interface MascotaDAO {
 
     public Mascota buscarRegistro(int id);
     public Mascota eliminarMascota(int id);
+    public Mascota buscarMascota(String nombre);
 
 }

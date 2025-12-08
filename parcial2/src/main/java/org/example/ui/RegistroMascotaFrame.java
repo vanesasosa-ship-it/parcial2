@@ -16,20 +16,22 @@ import java.time.format.DateTimeParseException;
 
 public class RegistroMascotaFrame extends JFrame {
 
+
     private JTextField nombreField;
-    private JTextField especieField;
-    private JTextField especieSeleccionada;
     private JTextField fechaNacimientoField;
     private JTextField pesoField;
+    private final MascotaDAO mascotaDAO;
 
-    public RegistroMascotaFrame(boolean adopcion)  {
+    public RegistroMascotaFrame(boolean adopcion, MascotaDAO mascotaDAO){
+
+        this.mascotaDAO = mascotaDAO;
 
         setTitle("Registrar una mascota");
         setSize(300, 200);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        String[] opciones = {"Perro", "Gato", "Conejo", "Otra"};
+        String[] opciones = {"Perro", "Gato", "Conejo"};
 
         int eleccion = JOptionPane.showOptionDialog(
                 null,
@@ -95,21 +97,21 @@ public class RegistroMascotaFrame extends JFrame {
                     return;
                 }
 
-                MascotaDAO mascotaDAO = new MascotaDAOH2Impl();
 
                 Mascota mascota = SeleccionEspecie.seleccionEspecie(nombre, eleccion, fechaNacimiento, peso);
                 mascotaDAO.guardarMascota(mascota, false);
 
-                if(adopcion){
+                if (adopcion) {
 
-                    int idMacotaCargada = mascota.getId();
                     AdopcionIniciada sesionAdopcion = AdopcionIniciada.getInstancia();
-                    sesionAdopcion.setIdMascota(idMacotaCargada);
-                    dispose();
-                    RegistrarAdopcionFrame registrarAdopcion = new RegistrarAdopcionFrame();
-                    registrarAdopcion.setVisible(true);
+                    Mascota mascotaEncontrada = mascotaDAO.buscarMascota(nombre);
 
-                }else{
+                    sesionAdopcion.setIdMascota(mascotaEncontrada.getId());
+
+                    dispose();
+                    new RegistrarAdopcionFrame().setVisible(true);
+
+                } else {
                     dispose();
                     JOptionPane.showMessageDialog(null, "Mascota registrada");
                 }
@@ -120,5 +122,6 @@ public class RegistroMascotaFrame extends JFrame {
 
         panelR.add(submitR);
         add(panelR);
+        setVisible(true);
     }
 }

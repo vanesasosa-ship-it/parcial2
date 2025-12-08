@@ -32,7 +32,7 @@ public class ConfigDatabase {
                 "MASCOTA",
                 "CREATE TABLE MASCOTA (" +
                         "id INT AUTO_INCREMENT PRIMARY KEY, " +
-                        "nomMascota VARCHAR(255), " +
+                        "nombre VARCHAR(255), " +
                         "especie VARCHAR(255), " +
                         "fechaNacimiento VARCHAR(255), " +
                         "peso VARCHAR(255), " +

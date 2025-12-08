@@ -60,9 +60,6 @@ public class ImprimeTicketFrame extends JDialog {
         Document documento = new Document();
 
 
-
-
-
         try {
             PdfWriter.getInstance(documento, new FileOutputStream(ruta));
             documento.open();

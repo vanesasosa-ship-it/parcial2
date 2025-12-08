@@ -1,6 +1,7 @@
 package org.example.ui;
 
 import org.example.DAO.AdoptanteDAOH2Impl;
+import org.example.DAO.MascotaDAOH2Impl;
 import org.example.DAO.interfaces.AdoptanteDAO;
 import org.example.modelo.AdopcionIniciada;
 import org.example.modelo.Adoptante;
@@ -77,8 +78,7 @@ public class RegistroAdoptanteFrame extends JFrame {
                     sesionAdopcion.setIdAdoptante(adoptante.getId());
 
 
-                    RegistroMascotaFrame registroMascota = new RegistroMascotaFrame(true);
-                    registroMascota.setVisible(true);
+                    new RegistroMascotaFrame(true, new MascotaDAOH2Impl()).setVisible(true);
                 }else{
 
                     JOptionPane.showMessageDialog(null, "Adoptante registrado");

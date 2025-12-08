@@ -5,35 +5,44 @@ import java.util.List;
 
 public class Mascota extends Especie {
 
-    private String nomMascota;
+    private String nombre;
     private String especie;
     private LocalDate fechaNacimiento;
     private int peso;
     private int id;
 
-    public Mascota(String nomMascota, String especie, LocalDate fechaNacimiento, int peso, int id, List<String> cuidados) {
+    public Mascota(String nombre, String especie, LocalDate fechaNacimiento, int peso, int id, List<String> cuidados) {
         super(cuidados);
-        this.nomMascota = nomMascota;
+        this.nombre = nombre;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
         this.peso = peso;
         this.id = id;
     }
 
-    public Mascota(String nomMascota, String especie, LocalDate fechaNacimiento, int peso, List<String> cuidados) {
+    public Mascota(int id, String nombre, String especie, LocalDate fechaNacimiento, int peso,  List<String> cuidados) {
         super(cuidados);
-        this.nomMascota = nomMascota;
+        this.nombre = nombre;
+        this.especie = especie;
+        this.fechaNacimiento = fechaNacimiento;
+        this.peso = peso;
+        this.id = id;
+    }
+
+    public Mascota(String nombre, String especie, LocalDate fechaNacimiento, int peso, List<String> cuidados) {
+        super(cuidados);
+        this.nombre = nombre;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
         this.peso = peso;
     }
 
-    public String getNomMascota() {
-        return nomMascota;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNomMascota(String nomMascota) {
-        this.nomMascota = nomMascota;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getEspecie() {

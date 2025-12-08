@@ -15,8 +15,10 @@ public class Conejo extends Mascota{
 
     private static List<String> crearCuidados() {
         List<String> cuidados = new ArrayList<>();
-        cuidados.add("bañar conejo");
-        cuidados.add("alimentar conejo");
+        cuidados.add("Espacio amplio para moverse");
+        cuidados.add("Limpieza de su zona");
+        cuidados.add("Variedad de verduras y alfalfa como comida");
+        cuidados.add("Espacio donde pueda hacer madriguera");
         return cuidados;
     }
 }

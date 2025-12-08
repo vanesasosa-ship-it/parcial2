@@ -15,8 +15,9 @@ public class Gato extends Mascota{
 
     private static List<String> crearCuidados() {
         List<String> cuidados = new ArrayList<>();
-        cuidados.add("bañar gato");
-        cuidados.add("alimentar gato");
+        cuidados.add("Limpieza del arenero");
+        cuidados.add("cepillado del pelaje");
+        cuidados.add("Lugares altos donde pueda trepar");
         return cuidados;
     }
 }
