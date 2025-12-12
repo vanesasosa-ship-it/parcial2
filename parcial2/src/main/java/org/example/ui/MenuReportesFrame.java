@@ -5,6 +5,9 @@ import org.example.DAO.MascotaDAOH2Impl;
 import org.example.modelo.Adopcion;
 import org.example.sesion.SesionIniciada;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.swing.*;
@@ -98,6 +101,8 @@ public class MenuReportesFrame  extends JFrame {
                             "Empleados con mayor cantidad de adopciones registradas",
                             JOptionPane.INFORMATION_MESSAGE
                     );
+                }else {
+                    JOptionPane.showMessageDialog(null, "No hay suficientes datos para realizar este reporte");
                 }
             }
         });
@@ -112,9 +117,13 @@ public class MenuReportesFrame  extends JFrame {
                 int perros = datos.getOrDefault("Perro", 0);
                 int gatos = datos.getOrDefault("Gato", 0);
                 int conejos = datos.getOrDefault("Conejo", 0);
+                if (perros == 0 && gatos == 0 && conejos == 0) {
+                    JOptionPane.showMessageDialog(null, "No hay suficientes datos para realizar este reporte");
+                }else{
+                    GraficoPastelFrame grafico = new GraficoPastelFrame(perros, gatos, conejos);
+                    grafico.setVisible(true);
+                }
 
-                GraficoPastelFrame grafico = new GraficoPastelFrame(perros, gatos, conejos);
-                grafico.setVisible(true);
 
 
 
@@ -126,33 +135,51 @@ public class MenuReportesFrame  extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                Component parent = SwingUtilities.getWindowAncestor(a2);
+
                 String fechaInicio = JOptionPane.showInputDialog(
-                        null,
+                        parent,
                         "Ingresar fecha de inicio (dd/MM/yyyy):",
                         "Fecha inicio",
-                        JOptionPane.QUESTION_MESSAGE
+                        JOptionPane.INFORMATION_MESSAGE
                 );
 
 
                 if (fechaInicio == null) return;
-
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate fechaI;
+                try {
+                    fechaI = LocalDate.parse(fechaInicio, formatter);
+                } catch (DateTimeParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Ingrese la fecha valida en el formato dd/MM/yyyy");
+                    return;
+                }
 
                 String fechaFin = JOptionPane.showInputDialog(
-                        null,
+                        parent,
                         "Ingresar fecha de fin (dd/MM/yyyy):",
                         "Fecha fin",
-                        JOptionPane.QUESTION_MESSAGE
+                        JOptionPane.INFORMATION_MESSAGE
                 );
 
 
                 if (fechaFin == null) return;
+                LocalDate fechaF;
+                try {
+                    fechaF = LocalDate.parse(fechaFin, formatter);
+                } catch (DateTimeParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Ingrese la fecha valida en el formato dd/MM/yyyy");
+                    return;
+                }
 
 
-                List<Adopcion> lista = dao.obtenerAdopcionesPorRango(fechaInicio + " 00:00", fechaFin + " 23:59");
+
+                List<Adopcion> lista = dao.obtenerAdopcionesPorRango(fechaI + " 00:00", fechaF + " 23:59");
+
 
                 if (lista == null || lista.isEmpty()) {
                     JOptionPane.showMessageDialog(
-                            null,
+                            parent,
                             "No se encontraron adopciones en el rango seleccionado.",
                             "Adopciones",
                             JOptionPane.INFORMATION_MESSAGE
@@ -167,7 +194,7 @@ public class MenuReportesFrame  extends JFrame {
                 }
 
                 JOptionPane.showMessageDialog(
-                        null,
+                        parent,
                         sb.toString(),
                         "Adopciones en un rango de fechas",
                         JOptionPane.INFORMATION_MESSAGE

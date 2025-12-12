@@ -24,4 +24,3 @@ public class Perro extends Mascota {
     }
 }
 
-//Mascota masc = new Mascota(nomMascota, peso, fecha, new Perro()

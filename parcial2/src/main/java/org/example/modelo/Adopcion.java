@@ -22,17 +22,6 @@ public class Adopcion {
         this.id = id;
     }
 
-
-    public Adopcion(String adoptanteNombre, String mascotaNombre, Empleado empleado, String fecha) {
-        this.adoptanteNombre = adoptanteNombre;
-        this.mascotaNombre = mascotaNombre;
-        this.empleado = empleado;
-        this.fecha = fecha;
-
-        this.empleadoNombre = (empleado != null ? empleado.getNombre() : null);
-    }
-
-
     public Adopcion(Adoptante adoptante, Mascota mascota, Empleado empleado, String fecha) {
         this.adoptante = adoptante;
         this.mascota = mascota;

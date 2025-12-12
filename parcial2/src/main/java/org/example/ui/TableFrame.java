@@ -19,9 +19,12 @@ public class TableFrame<T> extends JFrame {
     ) {
 
         setTitle(titulo);
-        setSize(500, 200);
+        setSize(1000, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBackground(new Color(245, 245, 245));
+
         DefaultTableModel tableModel = new DefaultTableModel(columnas, 0);
 
 

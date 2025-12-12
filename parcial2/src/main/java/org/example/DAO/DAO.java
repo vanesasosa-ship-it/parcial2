@@ -333,6 +333,7 @@ public class DAO {
                 resultado.put(especie, cantidad);
             }
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -368,7 +369,6 @@ public class DAO {
     public List<Adopcion> obtenerAdopcionesPorRango(String fechaInicio, String fechaFin) {
 
         List<Adopcion> lista = new ArrayList<>();
-
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime inicio = LocalDateTime.parse(fechaInicio, formatter);

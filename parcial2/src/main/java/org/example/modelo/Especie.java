@@ -12,7 +12,5 @@ public abstract class Especie {
      return this.cuidadosEspecificos;
  }
 
-    public void setCuidadosEspecificos(List<String> cuidadosEspecificos) {
-        this.cuidadosEspecificos = cuidadosEspecificos;
-    }
+
 }

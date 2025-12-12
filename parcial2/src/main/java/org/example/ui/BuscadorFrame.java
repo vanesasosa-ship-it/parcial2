@@ -31,7 +31,7 @@ public class BuscadorFrame extends JFrame {
 
         JPanel panelInput = new JPanel(new FlowLayout(FlowLayout.CENTER));
         nombreField = new JTextField();
-        nombreField.setPreferredSize(new Dimension(250, 25)); // ← ancho del input
+        nombreField.setPreferredSize(new Dimension(250, 25));
         panelInput.add(nombreField);
         panelR.add(panelInput);
 

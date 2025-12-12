@@ -85,7 +85,7 @@ public class MenuFrame extends JFrame {
                             m.getId(), m.getNombre(), m.getEspecie(),
                             m.getFechaNacimiento() != null ?
                                     m.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
-                            m.getPeso(), m.getAdoptado(), m.getCuidadosEspecificos()
+                            m.getPeso(), m.getAdoptado(),   String.join(", ", m.getCuidadosEspecificos())
                     },
                     mascotaDAO::eliminarMascota,
                     id -> {
