@@ -22,12 +22,22 @@ public class RegistroAdoptanteFrame extends JFrame {
     public RegistroAdoptanteFrame(boolean adopcion) {
 
         setTitle("Registrar un adoptante");
-        setSize(300, 200);
+        setSize(350, 250);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panelR = new JPanel();
-        panelR.setLayout(new GridLayout(6, 2));
+        panelR.setLayout(new BoxLayout(panelR, BoxLayout.Y_AXIS));
+        panelR.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panelR.setBackground(new Color(245, 245, 245));
+
+
+        JLabel titulo = new JLabel("Ingrese los datos del adoptante");
+        titulo.setFont(new Font("Arial", Font.BOLD, 15));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        panelR.add(titulo);
+
 
         JLabel nombreLabel = new JLabel("Nombre:");
         nombreField = new JTextField();
@@ -38,17 +48,27 @@ public class RegistroAdoptanteFrame extends JFrame {
         JLabel edadLabel = new JLabel("edad:");
         edadField = new JTextField();
 
+        JPanel campos = new JPanel();
+        campos.setLayout(new GridLayout(3, 3, 10, 10));
+        campos.setOpaque(false);
 
-        panelR.add(nombreLabel);
-        panelR.add(nombreField);
+        campos.add(nombreLabel);
+        campos.add(nombreField);
 
-        panelR.add(direccionLabel);
-        panelR.add(direccionField);
+        campos.add(direccionLabel);
+        campos.add(direccionField);
 
-        panelR.add(edadLabel);
-        panelR.add(edadField);
+        campos.add(edadLabel);
+        campos.add(edadField);
+
+        panelR.add(campos);
 
         JButton submitR = new JButton("Registrar");
+        submitR.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelR.add(Box.createRigidArea(new Dimension(0, 10)));
+        panelR.add(submitR);
+
+        add(panelR);
 
         submitR.addActionListener(new ActionListener() {
             @Override
@@ -77,7 +97,6 @@ public class RegistroAdoptanteFrame extends JFrame {
                     AdopcionIniciada sesionAdopcion = AdopcionIniciada.getInstancia();
                     sesionAdopcion.setAdoptanteNombre(adoptante.getNombre());
 
-
                     new RegistroMascotaFrame(true, new MascotaDAOH2Impl()).setVisible(true);
                 }else{
 
@@ -91,8 +110,6 @@ public class RegistroAdoptanteFrame extends JFrame {
             }
         });
 
-        panelR.add(submitR);
-        add(panelR);
     }
 }
 

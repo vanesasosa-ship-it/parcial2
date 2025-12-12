@@ -12,6 +12,7 @@ public class GraficoPastelFrame extends JFrame {
     public GraficoPastelFrame(int cantP, int cantG, int cantC) {
         setTitle("Gráfico de Pastel");
         setSize(600, 400);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         DefaultPieDataset dataset = new DefaultPieDataset();

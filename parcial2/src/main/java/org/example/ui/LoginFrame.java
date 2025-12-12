@@ -31,7 +31,7 @@ public class LoginFrame extends JFrame {
         panel.setBackground(new Color(245, 245, 245));
 
 
-        JLabel titulo = new JLabel("Inicio de Sesión");
+        JLabel titulo = new JLabel("Inicio de sesión");
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         titulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
@@ -66,7 +66,7 @@ public class LoginFrame extends JFrame {
         botones.add(iniciarSesión);
         botones.add(registrarButton);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // espacio extra abajo
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
         panel.add(botones);
 
         add(panel);

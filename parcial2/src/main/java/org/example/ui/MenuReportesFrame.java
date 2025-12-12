@@ -1,7 +1,9 @@
 package org.example.ui;
 
 import org.example.DAO.DAO;
+import org.example.DAO.MascotaDAOH2Impl;
 import org.example.modelo.Adopcion;
+import org.example.sesion.SesionIniciada;
 
 import java.util.List;
 
@@ -21,12 +23,47 @@ public class MenuReportesFrame  extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panelR = new JPanel();
-        panelR.setLayout(new GridLayout(4, 5));
+        JPanel fondo = new JPanel(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        panel.setMaximumSize(new Dimension(350, 600));
+
+        JLabel titulo = new JLabel("Reportes disponibles");
+        titulo.setFont(new Font("Arial", Font.BOLD, 22));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
+        panel.add(titulo);
+        panel.add(Box.createRigidArea(new Dimension(0, 8)));
+
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+
+        Dimension buttonSize = new Dimension(260, 40);
 
         JButton m = new JButton("Mascotas más adoptadas (Top 3)");
+        JButton  e = new JButton("<html>Empleados con mayor cantidad<br> de adopciones registradas</html>");
+        JButton a = new JButton("Adopciones por especie");
+        JButton a2 = new JButton("Adopciones en un rango de fechas");
+
+        JButton[] botones = {m, e, a, a2};
+        for (JButton b : botones) {
+            b.setPreferredSize(buttonSize);
+            b.setMaximumSize(buttonSize);
+            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+            b.setFocusPainted(false);
+            panel.add(b);
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        }
+
+
+
         m.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,7 +84,7 @@ public class MenuReportesFrame  extends JFrame {
             }
         });
 
-        JButton  e = new JButton("<html>Empleados con mayor cantidad<br> de adopciones registradas</html>");
+
         e.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,7 +102,7 @@ public class MenuReportesFrame  extends JFrame {
             }
         });
 
-        JButton a = new JButton("Adopciones por especie");
+
         a.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,7 +121,7 @@ public class MenuReportesFrame  extends JFrame {
             }
         });
 
-        JButton a2 = new JButton("Adopciones en un rango de fechas");
+
         a2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,14 +177,8 @@ public class MenuReportesFrame  extends JFrame {
 
 
 
-
-        panelR.add(m);
-        panelR.add(e);
-        panelR.add(a);
-        panelR.add(a2);
-
-        add(panelR);
-
+        fondo.add(panel, gbc);
+        add(fondo);
 
     }
 }

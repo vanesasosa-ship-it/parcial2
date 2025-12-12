@@ -31,7 +31,7 @@ public class RegistroFrame extends JFrame {
         panel.setBackground(new Color(245, 245, 245));
 
         JLabel titulo = new JLabel("Crear nuevo usuario");
-        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        titulo.setFont(new Font("Arial", Font.BOLD, 15));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         titulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
         panel.add(titulo);

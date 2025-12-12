@@ -26,9 +26,22 @@ public class RegistroMascotaFrame extends JFrame {
         this.mascotaDAO = mascotaDAO;
 
         setTitle("Registrar una mascota");
-        setSize(300, 200);
+        setSize(350, 250);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panelR = new JPanel();
+        panelR.setLayout(new BoxLayout(panelR, BoxLayout.Y_AXIS));
+        panelR.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panelR.setBackground(new Color(245, 245, 245));
+
+
+        JLabel titulo = new JLabel("Ingrese los datos de la mascota");
+        titulo.setFont(new Font("Arial", Font.BOLD, 15));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        panelR.add(titulo);
+
 
         String[] opciones = {"Perro", "Gato", "Conejo"};
 
@@ -44,8 +57,8 @@ public class RegistroMascotaFrame extends JFrame {
         );
 
 
-        JPanel panelR = new JPanel();
-        panelR.setLayout(new GridLayout(6, 2));
+
+
 
         JLabel nombreLabel = new JLabel("Nombre:");
         nombreField = new JTextField();
@@ -56,18 +69,31 @@ public class RegistroMascotaFrame extends JFrame {
         JLabel pesoLabel = new JLabel("Peso:");
         pesoField = new JTextField();
 
-        panelR.add(nombreLabel);
-        panelR.add(nombreField);
+        JPanel campos = new JPanel();
+        campos.setLayout(new GridLayout(3, 3, 10, 10));
+        campos.setOpaque(false);
 
 
-        panelR.add(fechaNacimientoLabel);
-        panelR.add(fechaNacimientoField);
+        campos.add(nombreLabel);
+        campos.add(nombreField);
 
 
-        panelR.add(pesoLabel);
-        panelR.add(pesoField);
+        campos.add(fechaNacimientoLabel);
+        campos.add(fechaNacimientoField);
+
+
+        campos.add(pesoLabel);
+        campos.add(pesoField);
+
+        panelR.add(campos);
 
         JButton submitR = new JButton("Registrar");
+        submitR.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelR.add(Box.createRigidArea(new Dimension(0, 10)));
+        panelR.add(submitR);
+
+
+        add(panelR);
 
         submitR.addActionListener(new ActionListener() {
             @Override
@@ -119,8 +145,6 @@ public class RegistroMascotaFrame extends JFrame {
             }
         });
 
-        panelR.add(submitR);
-        add(panelR);
-        setVisible(true);
+
     }
 }
