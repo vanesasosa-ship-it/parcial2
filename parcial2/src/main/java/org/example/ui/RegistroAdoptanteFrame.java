@@ -75,7 +75,7 @@ public class RegistroAdoptanteFrame extends JFrame {
                 if(adopcion){
 
                     AdopcionIniciada sesionAdopcion = AdopcionIniciada.getInstancia();
-                    sesionAdopcion.setIdAdoptante(adoptante.getId());
+                    sesionAdopcion.setAdoptanteNombre(adoptante.getNombre());
 
 
                     new RegistroMascotaFrame(true, new MascotaDAOH2Impl()).setVisible(true);

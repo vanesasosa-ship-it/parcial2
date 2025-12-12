@@ -6,11 +6,12 @@ import java.util.List;
 
 public class Perro extends Mascota {
 
-    public Perro(String nomMascota, int peso, LocalDate fechaNacimiento) {
+    public Perro(String nomMascota, int peso, LocalDate fechaNacimiento, boolean adoptado) {
         super(nomMascota,
                 "Perro",
                 fechaNacimiento,
                 peso,
+                adoptado,
                 crearCuidados());
     }
 

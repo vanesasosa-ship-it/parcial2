@@ -4,39 +4,47 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Adopcion {
-    
-   private int id;
-   private int idAdoptante;
-   private int idMascota;
-   private String fecha;
 
+   private int id;
+   private String adoptanteNombre;
+   private String mascotaNombre;
+   private String empleadoNombre;
+   private String fecha;
    private Adoptante adoptante;
    private Mascota mascota;
    private Empleado empleado;
 
-    public Adopcion(int idAdoptante, int idMascota, String fecha, int id) {
-        this.idAdoptante = idAdoptante;
-        this.idMascota = idMascota;
+    public Adopcion(String adoptanteNombre, String mascotaNombre, String empleadoNombre, String fecha, int id) {
+        this.adoptanteNombre = adoptanteNombre;
+        this.mascotaNombre = mascotaNombre;
+        this.empleadoNombre = empleadoNombre;
         this.fecha = fecha;
         this.id = id;
     }
 
-    public Adopcion(int idAdoptante, int idMascota, String fecha) {
-        this.idAdoptante = idAdoptante;
-        this.idMascota = idMascota;
+
+    public Adopcion(String adoptanteNombre, String mascotaNombre, Empleado empleado, String fecha) {
+        this.adoptanteNombre = adoptanteNombre;
+        this.mascotaNombre = mascotaNombre;
+        this.empleado = empleado;
         this.fecha = fecha;
+
+        this.empleadoNombre = (empleado != null ? empleado.getNombre() : null);
     }
+
 
     public Adopcion(Adoptante adoptante, Mascota mascota, Empleado empleado, String fecha) {
         this.adoptante = adoptante;
         this.mascota = mascota;
         this.empleado = empleado;
         this.fecha = fecha;
-        this.idAdoptante = adoptante.getId();
-        this.idMascota = mascota.getId();
+        this.adoptanteNombre = adoptante != null ? adoptante.getNombre() : null;
+        this.mascotaNombre = mascota != null ? mascota.getNombre() : null;
+        this.empleadoNombre = empleado != null ? empleado.getNombre() : null;
     }
 
     public String generarTicket() {
+
         return  "-----------------------------------------------\n" +
                 "          Ticket de adopción\n" +
                 "-----------------------------------------------\n" +
@@ -52,8 +60,8 @@ public class Adopcion {
                 "Nombre: " + mascota.getNombre() + "\n" +
                 "Fecha de nacimiento: " + mascota.getFechaNacimiento() + "\n" +
                 "Peso: " + mascota.getPeso() + "\n" +
-                "Especie: " + mascota.getEspecie() + "\n" +
-                "Recomendaciones de cuidado: " + mascota.getCuidadosEspecificos() + "\n\n" +
+                "Especie: " + mascota.getEspecie() + "\n\n" +
+                "Recomendaciones de cuidado: \n- " + String.join("\n- ", mascota.getCuidadosEspecificos()) + "\n\n" +
 
 
 
@@ -66,6 +74,16 @@ public class Adopcion {
                 "-----------------------------------------------\n";
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                " | Adoptante: " + adoptanteNombre +
+                " | Mascota: " + mascotaNombre +
+                " | Empleado: " + empleadoNombre +
+                " | Fecha: " + fecha;
+    }
+
+
     public int getId() {
         return id;
     }
@@ -74,20 +92,20 @@ public class Adopcion {
         this.id = id;
     }
 
-    public int getIdAdoptante() {
-        return idAdoptante;
+    public String getAdoptanteNombre() {
+        return adoptanteNombre;
     }
 
-    public void setIdAdoptante(int idAdoptante) {
-        this.idAdoptante = idAdoptante;
+    public void setAdoptanteNombre(String adoptanteNombre) {
+        this.adoptanteNombre = adoptanteNombre;
     }
 
-    public int getIdMascota() {
-        return idMascota;
+    public String getMascotaNombre() {
+        return mascotaNombre;
     }
 
-    public void setIdMascota(int idMascota) {
-        this.idMascota = idMascota;
+    public void setMascotaNombre(String mascotaNombre) {
+        this.mascotaNombre = mascotaNombre;
     }
 
     public String getFecha() {
@@ -96,5 +114,21 @@ public class Adopcion {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public String getEmpleadoNombre() {
+        return empleadoNombre;
+    }
+
+    public void setEmpleadoNombre(String empleadoNombre) {
+        this.empleadoNombre = empleadoNombre;
     }
 }

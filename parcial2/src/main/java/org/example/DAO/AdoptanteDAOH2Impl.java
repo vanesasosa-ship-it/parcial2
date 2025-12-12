@@ -188,4 +188,26 @@ public class AdoptanteDAOH2Impl implements AdoptanteDAO {
     }
     return adoptante;
 }
+
+@Override
+public Adoptante buscarPorNombreA(String nombre) {
+    return dao.buscarPorNombreGenerico(
+            "ADOPTANTE",
+            nombre,
+            "nombre",
+            rs -> {
+                try {
+                    return new Adoptante(
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getInt("edad"),
+                            rs.getInt("id")
+                    );
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+    );
+
+}
 }

@@ -2,13 +2,10 @@ package org.example.DAO;
 
 import org.example.DAO.interfaces.MascotaDAO;
 import org.example.modelo.*;
-import org.example.ui.RegistrarAdopcionFrame;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class MascotaDAOH2Impl implements MascotaDAO {
 
@@ -26,7 +23,6 @@ public class MascotaDAOH2Impl implements MascotaDAO {
 
     public Mascota guardarMascota(Mascota mascota, boolean iniciaP) {
 
-
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
 
             if (iniciaP) {
@@ -43,13 +39,15 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                     }
                 }
             }else{
-                String insertQuery = "INSERT INTO " + TABLE_NAME + " (nombre, especie, fechaNacimiento, peso, cuidados) VALUES (?, ?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO " + TABLE_NAME + " (nombre, especie, fechaNacimiento, peso, adoptado, cuidados) VALUES (?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
                     ps.setString(1, mascota.getNombre());
                     ps.setString(2, mascota.getEspecie());
                     ps.setDate(3, java.sql.Date.valueOf(mascota.getFechaNacimiento()));
                     ps.setInt(4, mascota.getPeso());
-                    ps.setString(5, String.join(",", mascota.getCuidadosEspecificos()));
+                    ps.setBoolean(5, mascota.getAdoptado());
+                    ps.setString(6, String.join(",", mascota.getCuidadosEspecificos()));
+
 
                     ps.executeUpdate();
                     try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -88,6 +86,7 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                                 rs.getString("especie"),
                                 rs.getDate("fechaNacimiento").toLocalDate(),
                                 rs.getInt("peso"),
+                                rs.getBoolean("adoptado"),
                                 rs.getInt("id"),
                                 Arrays.asList(rs.getString("cuidados").split(","))
                         );
@@ -113,6 +112,7 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                                 rs.getString("especie"),
                                 rs.getDate("fechaNacimiento").toLocalDate(),
                                 rs.getInt("peso"),
+                                rs.getBoolean("adoptado"),
                                 rs.getInt("id"),
                                 Arrays.asList(rs.getString("cuidados").split(","))
                         );
@@ -149,6 +149,7 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                         rs.getString("especie"),
                         rs.getDate("fechaNacimiento").toLocalDate(),
                         rs.getInt("peso"),
+                        rs.getBoolean("adoptado"),
                         new ArrayList<>()
                 );
                 mascota.setId(rs.getInt("id"));
@@ -169,9 +170,10 @@ public class MascotaDAOH2Impl implements MascotaDAO {
         return null;
     }
 
+
  @Override
-    public Mascota buscarMascota(String nombre) {
-     return dao.buscarPorNombre(
+ public Mascota buscarMascota2(String nombre) {
+     List<Mascota> lista = dao.buscarPorNombre(
              TABLE_NAME,
              nombre,
              URL,
@@ -185,6 +187,7 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                              rs.getString("especie"),
                              rs.getDate("fechaNacimiento").toLocalDate(),
                              rs.getInt("peso"),
+                             rs.getBoolean("adoptado"),
                              Arrays.asList(rs.getString("cuidados").split(","))
                      );
                  } catch (Exception e) {
@@ -192,11 +195,15 @@ public class MascotaDAOH2Impl implements MascotaDAO {
                  }
              }
      );
+
+     return lista.isEmpty() ? null : lista.get(0);
  }
 
- @Override
+
+
+    @Override
     public Mascota actualizarMascota(Mascota mascota) {
-        String sql = "UPDATE MASCOTA SET nombre=?, especie=?, fechaNacimiento=?, peso=?, cuidados=? WHERE id=?";
+        String sql = "UPDATE MASCOTA SET nombre=?, especie=?, fechaNacimiento=?, peso=?, adoptado=?, cuidados=? WHERE id=?";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -205,8 +212,9 @@ public class MascotaDAOH2Impl implements MascotaDAO {
             ps.setString(2, mascota.getEspecie());
             ps.setDate(3, java.sql.Date.valueOf(mascota.getFechaNacimiento()));
             ps.setInt(4, mascota.getPeso());
-            ps.setString(5, String.join(",", mascota.getCuidadosEspecificos()));
-            ps.setInt(6, mascota.getId());
+            ps.setBoolean(5, mascota.getAdoptado());
+            ps.setString(6, String.join(",", mascota.getCuidadosEspecificos()));
+            ps.setInt(7, mascota.getId());
 
             ps.executeUpdate();
 
@@ -216,5 +224,7 @@ public class MascotaDAOH2Impl implements MascotaDAO {
         }
      return mascota;
  }
+
+
 
 }

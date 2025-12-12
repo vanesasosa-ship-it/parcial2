@@ -1,7 +1,6 @@
 package org.example.DAO.interfaces;
 
 import org.example.modelo.Adopcion;
-import org.example.modelo.Adoptante;
 
 import java.util.List;
 
@@ -10,4 +9,6 @@ public interface AdopcionDAO {
     public List<Adopcion> listarAdopciones();
     public Adopcion buscarRegistro(int id);
     public Adopcion eliminarAdopcion(int id);
+    public Adopcion actualizarAdopcion(Adopcion adopcion);
+    public Adopcion buscarConObjetos(int id);
 }

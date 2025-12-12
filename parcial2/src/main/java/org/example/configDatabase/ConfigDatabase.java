@@ -6,6 +6,7 @@ import org.example.DAO.EmpleadoDAOHImpl;
 import org.example.modelo.Adoptante;
 import org.example.modelo.Empleado;
 
+
 public class ConfigDatabase {
 
     private static final String URL = "jdbc:h2:./data/base";
@@ -36,7 +37,8 @@ public class ConfigDatabase {
                         "especie VARCHAR(255), " +
                         "fechaNacimiento VARCHAR(255), " +
                         "peso VARCHAR(255), " +
-                        "cuidados VARCHAR(500)" +
+                        "cuidados VARCHAR(500), " +
+                        "adoptado BOOLEAN " +
                         ")",
                 URL, USER, PASSWORD
         );
@@ -45,8 +47,9 @@ public class ConfigDatabase {
                 "ADOPCION",
                 "CREATE TABLE ADOPCION (" +
                         "id INT AUTO_INCREMENT PRIMARY KEY, " +
-                        " idAdoptante VARCHAR(255), " +
-                        " idMascota VARCHAR(255), " +
+                        " adoptanteNombre VARCHAR(255), " +
+                        " mascotaNombre VARCHAR(255), " +
+                        " empleadoNombre VARCHAR(255), " +
                         " fecha VARCHAR(255))",
                 URL, USER, PASSWORD
         );

@@ -23,13 +23,13 @@ import java.io.FileOutputStream;
 public class ImprimeTicketFrame extends JDialog {
 
     public ImprimeTicketFrame(JFrame parent , String texto) {
-        super(parent, "Adopción registrada", true);
+        super(parent, "Imprimir", true);
 
         setSize(300, 150);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
 
-        JLabel mensaje = new JLabel("La adopción fue registrada exitosamente!.");
+        JLabel mensaje = new JLabel("Desea imprimir este ticket?");
         mensaje.setHorizontalAlignment(SwingConstants.CENTER);
         add(mensaje, BorderLayout.CENTER);
 

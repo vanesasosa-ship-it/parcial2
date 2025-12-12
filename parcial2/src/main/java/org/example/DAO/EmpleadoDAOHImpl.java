@@ -2,13 +2,10 @@ package org.example.DAO;
 
 import org.example.DAO.interfaces.EmpleadoDAO;
 import org.example.modelo.Empleado;
-import org.example.modelo.Mascota;
-import org.example.ui.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
-import java.util.Arrays;
 import java.util.List;
 
 public class EmpleadoDAOHImpl  implements EmpleadoDAO {
@@ -179,6 +176,10 @@ public class EmpleadoDAOHImpl  implements EmpleadoDAO {
         return empleado;
     }
 
+
+
+
+
     @Override
     public Empleado buscarEmpleado(int id){
         return dao.buscarPorId(
@@ -203,4 +204,26 @@ public class EmpleadoDAOHImpl  implements EmpleadoDAO {
                 }
         );
     }
+
+    public Empleado buscarPorNombre(String nombre) {
+        return dao.buscarPorNombreGenerico(
+                "EMPLEADO",
+                nombre,
+                "nombre",
+                rs -> {
+                    try {
+                        return new Empleado(
+                                rs.getString("nombre"),
+                                rs.getString("cargo"),
+                                rs.getString("password"),
+                                rs.getInt("id")
+                        );
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+    }
+
+
 }

@@ -1,6 +1,5 @@
 package org.example.ui;
 
-import org.example.DAO.MascotaDAOH2Impl;
 import org.example.DAO.interfaces.MascotaDAO;
 import org.example.modelo.AdopcionIniciada;
 import org.example.modelo.SeleccionEspecie;
@@ -77,7 +76,7 @@ public class RegistroMascotaFrame extends JFrame {
                 String nombre = nombreField.getText();
                 String fechaText = fechaNacimientoField.getText().trim();
                 String pesoText = pesoField.getText();
-
+                boolean adoptado = adopcion  ? true : false;
 
                 int peso;
 
@@ -98,13 +97,13 @@ public class RegistroMascotaFrame extends JFrame {
                 }
 
 
-                Mascota mascota = SeleccionEspecie.seleccionEspecie(nombre, eleccion, fechaNacimiento, peso);
+                Mascota mascota = SeleccionEspecie.seleccionEspecie(nombre, eleccion, fechaNacimiento, peso, adoptado);
                 mascotaDAO.guardarMascota(mascota, false);
 
                 if (adopcion) {
 
                     AdopcionIniciada sesionAdopcion = AdopcionIniciada.getInstancia();
-                    Mascota mascotaEncontrada = mascotaDAO.buscarMascota(nombre);
+                    Mascota mascotaEncontrada = mascotaDAO.buscarMascota2(nombre);
 
                     sesionAdopcion.setIdMascota(mascotaEncontrada.getId());
 

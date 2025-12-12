@@ -3,9 +3,10 @@ package org.example.modelo;
 public class AdopcionIniciada {
 
     private static AdopcionIniciada instancia;
-
     private Integer idAdoptante;
     private Integer idMascota;
+    private String adoptanteNombre;
+    private String mascotaNombre;
     private String fecha;
 
     private AdopcionIniciada() {}
@@ -15,6 +16,30 @@ public class AdopcionIniciada {
             instancia = new AdopcionIniciada();
         }
         return instancia;
+    }
+
+    public String getAdoptanteNombre() {
+        return adoptanteNombre;
+    }
+
+    public void setAdoptanteNombre(String adoptanteNombre) {
+        this.adoptanteNombre = adoptanteNombre;
+    }
+
+    public String getMascotaNombre() {
+        return mascotaNombre;
+    }
+
+    public void setMascotaNombre(String mascotaNombre) {
+        this.mascotaNombre = mascotaNombre;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public Integer getIdAdoptante() {
@@ -33,17 +58,11 @@ public class AdopcionIniciada {
         this.idMascota = idMascota;
     }
 
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
     public void reset() {
         idAdoptante = null;
         idMascota = null;
+        adoptanteNombre = null;
+        mascotaNombre = null;
         fecha = null;
     }
 }

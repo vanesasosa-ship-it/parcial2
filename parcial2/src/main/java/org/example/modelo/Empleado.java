@@ -1,5 +1,7 @@
 package org.example.modelo;
 
+import java.util.List;
+
 public class Empleado {
 
 
@@ -56,4 +58,6 @@ public class Empleado {
     public void setId(int id) {
         this.id = id;
     }
+
+
 }

@@ -14,7 +14,8 @@ public class TableFrame<T> extends JFrame {
             List<T> data,
             Function<T, Object[]> rowMapper,
                       Consumer<Integer> deleteCallback,
-                      Consumer<Integer> editCallback
+                      Consumer<Integer> editCallback,
+                      Consumer<Integer> imprimirCallback
     ) {
 
         setTitle(titulo);
@@ -90,6 +91,29 @@ public class TableFrame<T> extends JFrame {
             JPanel southPanel = new JPanel();
             southPanel.add(editar);
             southPanel.add(eliminar);
+
+
+            if (imprimirCallback != null) {
+                JButton imprimir = new JButton("Imprimir seleccionado");
+                imprimir.addActionListener(e -> {
+                    int fila = table.getSelectedRow();
+
+                    if (fila == -1) {
+                        JOptionPane.showMessageDialog(null, "Seleccione un registro");
+                        return;
+                    }
+
+                    Object idObj = tableModel.getValueAt(fila, 0);
+
+                    if (idObj instanceof Integer id) {
+                        imprimirCallback.accept(id);
+                    }
+                });
+
+                southPanel.add(imprimir);
+            }
+
+
 
             panel.add(southPanel, BorderLayout.SOUTH);
 

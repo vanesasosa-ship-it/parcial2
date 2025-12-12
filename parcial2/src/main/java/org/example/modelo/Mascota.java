@@ -10,31 +10,35 @@ public class Mascota extends Especie {
     private LocalDate fechaNacimiento;
     private int peso;
     private int id;
+    private boolean adoptado;
 
-    public Mascota(String nombre, String especie, LocalDate fechaNacimiento, int peso, int id, List<String> cuidados) {
+    public Mascota(String nombre, String especie, LocalDate fechaNacimiento, int peso, boolean adoptado, int id, List<String> cuidados) {
         super(cuidados);
         this.nombre = nombre;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
         this.peso = peso;
         this.id = id;
+        this.adoptado = adoptado;
     }
 
-    public Mascota(int id, String nombre, String especie, LocalDate fechaNacimiento, int peso,  List<String> cuidados) {
+    public Mascota(int id, String nombre, String especie, LocalDate fechaNacimiento, int peso, boolean adoptado, List<String> cuidados) {
         super(cuidados);
         this.nombre = nombre;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
         this.peso = peso;
         this.id = id;
+        this.adoptado = adoptado;
     }
 
-    public Mascota(String nombre, String especie, LocalDate fechaNacimiento, int peso, List<String> cuidados) {
+    public Mascota(String nombre, String especie, LocalDate fechaNacimiento, int peso, boolean adoptado, List<String> cuidados) {
         super(cuidados);
         this.nombre = nombre;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
         this.peso = peso;
+        this.adoptado = adoptado;
     }
 
     public String getNombre() {
@@ -77,5 +81,11 @@ public class Mascota extends Especie {
         this.id = id;
     }
 
+    public boolean getAdoptado() {
+        return adoptado;
+    }
 
+    public void setAdoptado(boolean adoptado) {
+        this.adoptado = adoptado;
+    }
 }

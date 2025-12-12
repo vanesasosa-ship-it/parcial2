@@ -2,9 +2,11 @@ package org.example.ui;
 
 import org.example.DAO.AdopcionDAOH2Impl;
 import org.example.DAO.AdoptanteDAOH2Impl;
+import org.example.DAO.EmpleadoDAOHImpl;
 import org.example.DAO.MascotaDAOH2Impl;
 import org.example.DAO.interfaces.AdopcionDAO;
 import org.example.DAO.interfaces.AdoptanteDAO;
+import org.example.DAO.interfaces.EmpleadoDAO;
 import org.example.DAO.interfaces.MascotaDAO;
 import org.example.modelo.*;
 import org.example.sesion.SesionIniciada;
@@ -33,14 +35,13 @@ public class RegistrarAdopcionFrame  extends JFrame {
 
         AdoptanteDAO adoptanteDAO = new AdoptanteDAOH2Impl();
 
-        Adoptante adoptante = adoptanteDAO.buscarRegistro(sesionAdopcion.getIdAdoptante());
+        Adoptante adoptante = adoptanteDAO.buscarPorNombreA(sesionAdopcion.getAdoptanteNombre());
 
         MascotaDAO mascotaDAO = new MascotaDAOH2Impl();
 
         Mascota mascota = mascotaDAO.buscarRegistro(sesionAdopcion.getIdMascota());
 
         Empleado empleadoLogueado = SesionIniciada.getUsuarioActual();
-
         String infoHtml =
                 "<html>" +
                         "-----------------------------------------------" +
@@ -75,6 +76,7 @@ public class RegistrarAdopcionFrame  extends JFrame {
 
         submitR.addActionListener(new ActionListener() {
             @Override
+
             public void actionPerformed(ActionEvent e) {
 
                 Adopcion nuevaAdopcion = new Adopcion(
@@ -86,7 +88,6 @@ public class RegistrarAdopcionFrame  extends JFrame {
 
                 AdopcionDAO dao = new AdopcionDAOH2Impl();
                 dao.registrar(nuevaAdopcion);
-
 
                 String textoParaPDF = nuevaAdopcion.generarTicket();
 

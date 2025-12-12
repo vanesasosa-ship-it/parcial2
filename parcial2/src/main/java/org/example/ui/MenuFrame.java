@@ -13,7 +13,6 @@ import org.example.sesion.SesionIniciada;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +28,7 @@ public class MenuFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panelR = new JPanel();
-        panelR.setLayout(new GridLayout(9, 5));
+        panelR.setLayout(new GridLayout(10, 5));
 
         JButton tablaM = new JButton("Ver lista de mascotas");
         tablaM.addActionListener(new ActionListener() {
@@ -40,7 +39,7 @@ public class MenuFrame extends JFrame {
 
                 List<Mascota> mascotas = mascotaDAO.listarMascotas();
 
-                String[] columnas = {"ID", "Nombre","Especie", "Fecha de nacimiento", "Peso", "cuidados"};
+                String[] columnas = {"ID", "Nombre","Especie", "Fecha de nacimiento", "Peso", "adoptado", "cuidados"};
 
                 TableFrame<Mascota> frame = new TableFrame<>(
                         "Listado de mascotas",
@@ -52,6 +51,7 @@ public class MenuFrame extends JFrame {
                                 mascota.getEspecie(),
                                 mascota.getFechaNacimiento() != null ? mascota.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "",
                                 mascota.getPeso(),
+                                mascota.getAdoptado(),
                                 mascota.getCuidadosEspecificos()
                         }, id -> mascotaDAO.eliminarMascota(id),
                         id -> {
@@ -68,7 +68,8 @@ public class MenuFrame extends JFrame {
                                     mas -> new Object[]{
                                             mas.getNombre(),
                                             mas.getFechaNacimiento() != null ? mas.getFechaNacimiento().toString() : "",
-                                            mas.getPeso()
+                                            mas.getPeso(),
+                                            mas.getAdoptado(),
                                     },
                                     (mas, vals) -> {
                                         mas.setNombre((String) vals[0]);
@@ -82,7 +83,7 @@ public class MenuFrame extends JFrame {
 
                                     }
                             );
-                        }
+                        }, null
                 );
             }
         });
@@ -131,9 +132,8 @@ public class MenuFrame extends JFrame {
 
                                     }
                             );
-                        }
+                        }, null
                 );
-
 
             }
         });
@@ -186,7 +186,7 @@ public class MenuFrame extends JFrame {
 
                                     }
                             );
-                        }
+                        }, null
                 );
             }
         });
@@ -201,7 +201,7 @@ public class MenuFrame extends JFrame {
 
                 List<Adopcion> adopciones = adopcionDAO.listarAdopciones();
 
-                String[] columnas = {"ID", "IdAdoptante", "IdMascota", "Fecha"};
+                String[] columnas = {"ID", "Nombre del adoptante", "Nombre de la mascota", "Nombre empleado", "Fecha"};
 
                 TableFrame<Adopcion> frame = new TableFrame<>(
                         "Historial de adopciones",
@@ -209,17 +209,61 @@ public class MenuFrame extends JFrame {
                         adopciones,
                         adopcion -> new Object[] {
                                 adopcion.getId(),
-                                adopcion.getIdAdoptante(),
-                                adopcion.getIdMascota(),
+                                adopcion.getAdoptanteNombre(),
+                                adopcion.getMascotaNombre(),
+                                adopcion.getEmpleadoNombre(),
                                 adopcion.getFecha()
 
                         }, id -> adopcionDAO.eliminarAdopcion(id),
-                        null
+                        id-> {
+                            Adopcion m = adopcionDAO.buscarRegistro(id);
+                            if (m == null) {
+                                JOptionPane.showMessageDialog(null, "No se encontró el registro.");
+                                return;
+                            }
+
+                            new EditorFrame<>(
+                                    "Editar Adoptante",
+                                    m,
+                                    new String[]{"Nombre del Adoptante", "Nombre de la mascota", "fecha", "nombre del empleado"},
+                                    adop -> new Object[]{
+                                            adop.getAdoptanteNombre(),
+                                            adop.getMascotaNombre(),
+                                            adop.getFecha(),
+                                            adop.getEmpleadoNombre(),
+                                    },
+                                    (adop, vals) -> {
+                                        adop.setAdoptanteNombre((String) vals[0]);
+                                        adop.setMascotaNombre((String) vals[1]);
+                                        adop.setFecha((String) vals[2]);
+                                        adop.setEmpleadoNombre((String) vals[3]);
+
+                                    },
+                                    adopcionEditada -> {
+                                        adopcionDAO.actualizarAdopcion(adopcionEditada);
+
+                                    }
+                            );
+                        }, id -> {
+
+
+                    Adopcion adopcionCompleta = adopcionDAO.buscarConObjetos(id);
+
+                    if (adopcionCompleta == null) {
+                        JOptionPane.showMessageDialog(null, "No se encontró la adopción completa para imprimir.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    String ticket = adopcionCompleta.generarTicket();
+
+                    ImprimeTicketFrame ticketNuevo = new ImprimeTicketFrame(null, ticket);
+                    ticketNuevo.setVisible(true);
+                }
                 );
             }
         });
 
-        JButton tablaB = new JButton("Buscar un registro de adopcion");
+        JButton tablaB = new JButton("Buscar un registro");
         tablaB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -303,7 +347,7 @@ public class MenuFrame extends JFrame {
         panelR.add(tablaM);
         panelR.add(tablaA);
         panelR.add(tablaR);
-       // panelR.add(tablaB);
+        panelR.add(tablaB);
        // panelR.add(rAdoptante);
         panelR.add(rMascota);
         panelR.add(rAdopcion);

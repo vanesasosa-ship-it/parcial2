@@ -12,5 +12,6 @@ public interface AdoptanteDAO {
     public Adoptante buscarRegistro(int id);
     public Adoptante eliminarAdoptante(int id);
     public Adoptante actualizarAdoptante(Adoptante adoptante);
+    public Adoptante buscarPorNombreA(String nombre);
 }
 

@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gato extends Mascota{
-    public Gato(String nomMascota, int peso, LocalDate fechaNacimiento) {
+    public Gato(String nomMascota, int peso, LocalDate fechaNacimiento, boolean adoptado) {
         super(nomMascota,
                 "Gato",
                 fechaNacimiento,
                 peso,
+                adoptado,
                 crearCuidados());
     }
 
